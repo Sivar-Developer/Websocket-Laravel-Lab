@@ -10,19 +10,18 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Comment;
 
-class PlaygroundEvent implements ShouldBroadcastNow
+class NewMessage implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $comment;
+    public $message;
     /**
      * Create a new event instance.
      */
-    public function __construct(Comment $comment)
+    public function __construct($message)
     {
-        $this->comment = $comment;
+        $this->message = $message;
     }
 
     /**
@@ -33,19 +32,7 @@ class PlaygroundEvent implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new Channel('post.'.$this->comment->post->id),
-        ];
-    }
-
-    public function broadcastWith()
-    {
-        return [
-            'body' => $this->comment->body,
-            'created_at' => $this->comment->created_at->toFormattedDateString(),
-            'user' => [
-                'name' => $this->comment->user ? $this->comment->user->name : 'Sivar',
-                'avatar' => 'https://lorempixel/50/50'
-            ]
+            new Channel('home'),
         ];
     }
 }
