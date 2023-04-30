@@ -26,7 +26,7 @@ window.Echo = new Echo({
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
     wsHost: 'websocket.appspot.fragmatica.com',
     wsPort: 6001,
-    // wssPort: 6001,
-    forceTLS: false,
+    wssPort: 443,
+    forceTLS: true,
 });
 
